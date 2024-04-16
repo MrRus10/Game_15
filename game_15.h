@@ -18,9 +18,7 @@ class FifteenGame : public sf::Drawable, public sf::Transformable {
 public:
 	FifteenGame();
 	void FillWithRandomUniqueNums();
-	std::pair<int, int> FindZeroPosition();
 	bool IsSolvable();
-	void TransformInOneDim();
 	void Move(Direction direction);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool Check();
@@ -32,4 +30,6 @@ private:
 	bool solved = false;
 	
 	bool IsUnique(int random_num);
+	void TransformInOneDim();
+	std::pair<int, int> FindZeroPosition();
 };

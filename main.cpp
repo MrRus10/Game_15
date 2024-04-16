@@ -1,4 +1,5 @@
 #include "game_15.h"
+#include<random>
 using namespace std;
 
 int main() {
@@ -8,15 +9,13 @@ int main() {
 	sf::Font font;
 	font.loadFromFile("C:/Windows/Fonts/calibri.ttf");
 	
-	// Текст с обозначением клавиш
 	sf::Text text("F2 - New Game / Esc - Exit / Arrow Keys - Move Tile", font, 20);
 	text.setFillColor(sf::Color::Cyan);
 	text.setPosition(5.f, 5.f);
 
-	// Создаем объект игры
 	FifteenGame game;
 	game.setPosition(50.f, 50.f);
-
+	
 	sf::Event event;
 
 	while (window.isOpen())
@@ -30,15 +29,12 @@ int main() {
 				if (event.key.code == sf::Keyboard::Right) game.Move(Direction::Left);
 				if (event.key.code == sf::Keyboard::Up) game.Move(Direction::Down);
 				if (event.key.code == sf::Keyboard::Down) game.Move(Direction::Up);
-				// Новая игра
 				if (event.key.code == sf::Keyboard::F2) {
 					game.FillWithRandomUniqueNums();
 				}
 			}
 		}
-
-		// Выполняем необходимые действия по отрисовке
-		window.clear();
+ 		window.clear();
 		window.draw(game);
 		window.draw(text);
 		window.display();

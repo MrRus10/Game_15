@@ -58,11 +58,8 @@ bool FifteenGame::IsSolvable() {
 				++chaos;
 			}
 		}
-		//std::cout << current_num << " -> " << chaos << ", ";
 	}
-	//std::cout << std::endl;
 	N = chaos + FindZeroPosition().first + 1;
-	//std::cout << N << std::endl;
 	if (N % 2 == 1) {
 		std::cout << "Game is unsolvable" << std::endl;
 		return false;
@@ -78,11 +75,9 @@ void FifteenGame::TransformInOneDim() {
 	for (int i = 0; i < GAME_SIZE; ++i) {
 		for (int j = 0; j < GAME_SIZE; ++j) {
 			elements_[k] = numbers_[i][j];
-			//std::cout << elements_[k] << " ";
 			++k;
 		}
 	}
-	//std::cout << std::endl;
 }
 
 void FifteenGame::Move(Direction direction) {
@@ -123,7 +118,6 @@ void FifteenGame::Move(Direction direction) {
 }
 
 bool FifteenGame::Check() {
-	// Проверка собранности головоломки
 	for (int i = 0; i < GAME_SIZE * GAME_SIZE; i++) {
 		if (elements_[i] > 0 && elements_[i] != i + 1) {
 			return false;
@@ -136,45 +130,39 @@ void FifteenGame::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 	states.transform *= getTransform();
 	sf::Color color = sf::Color(200, 100, 200);
 
-	// Рисуем рамку игрового поля
+	// Drawing the game field frame
 	sf::RectangleShape shape(sf::Vector2f(FIELD_SIZE, FIELD_SIZE));
 	shape.setOutlineThickness(2.f);
 	shape.setOutlineColor(color);
 	shape.setFillColor(sf::Color::Transparent);
 	target.draw(shape, states);
 
-	// Подготавливаем рамку для отрисовки всех плашек
+	// Doing the frame for drawing of all cells 
 	shape.setSize(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2));
 	shape.setOutlineThickness(2.f);
 	shape.setOutlineColor(color);
 	shape.setFillColor(sf::Color::Transparent);
 
-	// Подготавливаем текстовую заготовку для отрисовки номеров плашек
+	// Doing text template for drawing of cells numbers
 	sf::Text text("", font, 52);
 	for (int i = 0; i < GAME_SIZE * GAME_SIZE; i++) {
 		shape.setOutlineColor(color);
 		text.setFillColor(color);
 		text.setString(std::to_string(elements_[i]));
 		if (solved) {
-			// Решенную головоломку выделяем другим цветом
+			// Solved game is defined by another color
 			shape.setOutlineColor(sf::Color::Cyan);
 			text.setFillColor(sf::Color::Cyan);
 		}
 		else if (elements_[i] == i + 1) {
-			// Номера плашек на своих местах выделяем цветом
 			text.setFillColor(sf::Color::Green);
 		}
 
-		// Рисуем все плашки, кроме пустой
 		if (elements_[i] > 0) {
-			// Вычисление позиции плашки для отрисовки
 			sf::Vector2f position(i % GAME_SIZE * CELL_SIZE + 10.f, i / GAME_SIZE * CELL_SIZE + 10.f);
 			shape.setPosition(position);
-			// Позицию текста подбирал вручную
 			text.setPosition(position.x + 30.f + (elements_[i] < 10 ? 15.f : 0.f), position.y + 25.f);
-			// Отрисовываем рамку плашки
 			target.draw(shape, states);
-			// Отрисовываем номер плашки
 			target.draw(text, states);
 		}
 	}
